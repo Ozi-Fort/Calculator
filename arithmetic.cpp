@@ -3,6 +3,8 @@
 
 using namespace std;
 
+double const M_PI = 3.1415;
+
 void Addition() {
     // This function will perform addition of numbers
     double a, b, result;
@@ -136,3 +138,7 @@ int main() {
 
     return 0;
 }
+
+// 8 - sin
+// 9 - cos
+// 10 - tan
