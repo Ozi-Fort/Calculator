@@ -42,3 +42,20 @@ button {
 button:hover {
     background-color: #0056b3;
 }
+
+body {
+    background-color: #33A17F; /* LightCyan */
+}
+.container {
+    background-color: #33A17F; /* PaleTurquoise */
+    padding: 20px;
+}
+.sqrt-button {
+            background-color: red;
+        }
+  .logo {
+            font-family: 'Eurostile Bold Extended Italic', sans-serif;
+            font-size: 100px;
+            color: #00FF66;
+            text-shadow: 0 0 10px #33FF99;
+        }
