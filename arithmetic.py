@@ -3,97 +3,103 @@ import math
 PI = 3.1415
 
 def addition():
-    a, b = map(float, input("Enter two numbers you would like to add: ").split())
-    print(a + b)
+    return a + b
 
 def subtraction():
-    a, b = map( float, input("Please enter two numbers you would like to subtract: ").split())
-    print(a - b)
+    return a - b
 
-def division():
-    a, b = map(float, input("Enter the two values you would like to divide: ").split())
-    
+def division():    
     if(b == 0):
-        print("You cannot divide by zero!")
-        return
-    print(a / b)  
+        return "Error: Division by zero"
+    return a / b
 
 def multiplication():
-    a, b = map(float, input("Enter the two values you would like to multiply: ").split())
-    print(a * b)
+    return a * b
 
+def remainder():
+    if b == 0:
+        return "Error: Division by zero"
+    return a % b
+    
 def square():
-    a = float(input("Enter in the value you would like to find the square value of: "))
-    print(a * a)
+    a * a
 
 def squareRoot():
-    a = float(input("Enter in the value you would like to find the square root of: "))
-    result = math.sqrt(a)
-    print(result)
+    if (a < 0):
+        return "The answer is imaginary, but you're not ready for that one."
+    return math.sqrt(a)
 
 def exponent():
-    a, b = map(float, input("Enter the base and exponent: ").split())
-    result = a ** b
-    print(result)
+    return a ** b
+
+def factorials():
+    if a < 0 or a != (int)(a):
+        return "Factorials are only found for non-negative whole numbers"
+    i = 0
+    for i in a:
+        result = a * i
+        i+=1
+    return result
 
 def sin():
-    a = float(input("Enter in an angle to find the sine: "))
-    result = math.sin(a)
-    print(result)
+    return math.sin(math.radians(a))
 
 def cos():
-    a = float(input("Enter in an angle in degrees to find the cosine: "))
-    result = math.cos(a)
-    print(result)
+    return math.cos(math.radians(a))
 
 def tan():
-    a = float(input("Enter in the angle in degrees to find the tangent: "))
-    result = math.tan(a)
-    print(result)
+    return math.tan(math.radians(a))
 
 def main():
     while True:
 
-        print("\n--- Simple Calculator ---")
+        print("\n--- Fancy Calculator ---")
         print("1. Add")
         print("2. Subtract")
         print("3. Multiply")
         print("4. Divide")
-        print("5. Square")
-        print("6. Square Root")
-        print("7. Exponent")
-        print("8. Sin")
-        print("9. Cos")
-        print("10. Tan")
-        print("11. Quit")
+        print("5. Remainder")
+        print("6. Square")
+        print("7. Square Root")
+        print("8. Exponent")
+        print("9. Factorials")
+        print("10. Sin")
+        print("11. Cos")
+        print("12. Tan")
+        print("13. Quit")
               
-        choice = input("Choose an operation (1-11): ")
+        choice = int(input("Choose an operation (1-13): "))
  
 
-        if choice == "1":
-            addition()
-        elif choice == "2":
-            subtraction()
-        elif choice == "3":
-            multiplication()
-        elif choice == "4":
-            division()
-        elif choice == "5":
-            square()
-        elif choice == "6":
-            squareRoot()
-        elif choice == "7":
-            exponent()
-        elif choice == "8":
-            sin()
-        elif choice == "9":
-            cos()
-        elif choice == "10":
-            tan()
-        elif choice == "11":
-            print("Goodbye!")
-            break  # exits the loop
-        else:
-            print("Invalid choice, try again.")
+        match(choice):
+            case 1:
+                addition()
+            case 2:
+                subtraction()
+            case 3:
+                multiplication()
+            case 4:
+                division()
+            case 5:
+                remainder()
+            case 6:
+                square()
+            case 7:
+                squareRoot()
+            case 8:
+                exponent()
+            case 9:
+                factorials()
+            case 10:
+                sin()
+            case 11:
+                cos()
+            case 12:
+                tan()
+            case 13:
+                break
+            case _:
+                print("Invalid operation.")
+                choice = int(input("Select an operation (1-13): "))
 
 main()
