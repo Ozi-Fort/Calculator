@@ -156,6 +156,25 @@
         document.getElementById('display'). value = data.result;
         currentInput = "";
         }
+
+        // for trig functions
+        async function scientificOperation(operation) {
+            let a = parseFloat(document.getElementById('display').value);
+            if (isNaN(a)) {
+                document.getElementById('display').value = "Enter a number first";
+                return;
+            }
+
+            const response = await fetch("/calculate", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ operation, a })
+            });
+
+            const data = await response.json();
+            document.getElementById('display').value = data.result;
+            currentInput = "";
+        }
     </script>
 </body>
 </html>
