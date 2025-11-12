@@ -40,6 +40,8 @@ def calculate():
             result = calculate.tan()
     except Exception as e:
         result = f"Error: {e}"
+    
+    return jsonify({"result": result})
 
                         
 if __name__ == "__main__":
