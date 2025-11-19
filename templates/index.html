@@ -4,9 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Calculator</title>
-    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
     <style>
-        body {
+    body {
             background-color: #E8D299;
         }
         .calculator {
@@ -137,59 +137,70 @@
         }
 
         async function calculateResult() {
-        const expression = currentInput;
-        let operation = "";
-        let a, b;
+            const displayEl = document.getElementById('display');
+            const expression = displayEl.innerText.trim();
+            let operation = "";
+            let a, b;
 
-        // detect which operator is used
-        if (expression.includes("+")) {
-            [a, b] = expression.split("+");
-            operation = "add";
-        } else if (expression.includes("-")) {
-            [a, b] = expression.split("-");
-            operation = "subtract";
-        } else if (expression.includes("*")) {
-            [a, b] = expression.split("*");
-            operation = "multiply";
-        } else if (expression.includes("/")) {
-            [a, b] = expression.split("/");
-            operation = "divide";
-        } else {
-            document.getElementById('display'). value = "Invalid";
-            return;
-        }
-
-        a = parseFloat(a);
-        b = parseFloat(b);
-
-        const response = await fetch("/ calculate", {
-            method: "POST",
-            headers: { "Content-Type":  "application/json" },
-            body: JSON.stringify({ operation,   a, b })
-        });
-
-        const data = await response.json();
-        document.getElementById('display'). value = data.result;
-        currentInput = "";
-        }
-
-        // for trig functions
-        async function scientificOperation(operation) {
-            let a = parseFloat(document.getElementById('display').value);
-            if (isNaN(a)) {
-                document.getElementById('display').value = "Enter a number first";
+            if (!expression) {
+                displayEl.innerText = "Invalid";
                 return;
             }
 
-            const response = await fetch("/calculate", {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ operation, a })
-            });
+            if (expression.includes("+")) {
+                [a, b] = expression.split("+");
+                operation = "add";
+            } else if (expression.includes("-")) {
+                [a, b] = expression.split("-");
+                operation = "subtract";
+            } else if (expression.includes("*")) {
+                [a, b] = expression.split("*");
+                operation = "multiply";
+            } else if (expression.includes("/")) {
+                [a, b] = expression.split("/");
+                operation = "divide";
+            } else {
+                displayEl.innerText = "Invalid";
+                return;
+            }
 
-            const data = await response.json();
-            document.getElementById('display').value = data.result;
-            currentInput = "";
+            a = parseFloat(a);
+            b = parseFloat(b);
+
+            try {
+                const response = await fetch("/calculate", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ operation, a, b })
+                });
+
+                const data = await response.json();
+                displayEl.innerText = data.result;
+            } catch (err) {
+                displayEl.innerText = `Error: ${err}`;
+            }
+        }
+
+        // for trig/scientific functions (if you add buttons for them)
+        async function scientificOperation(operation) {
+            const displayEl = document.getElementById('display');
+            const a = parseFloat(displayEl.innerText);
+            if (isNaN(a)) {
+                displayEl.innerText = "Enter a number first";
+                return;
+            }
+
+            try {
+                const response = await fetch("/calculate", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ operation, a })
+                });
+                const data = await response.json();
+                displayEl.innerText = data.result;
+            } catch (err) {
+                displayEl.innerText = `Error: ${err}`;
+            }
         }
     </script>
 </body>
