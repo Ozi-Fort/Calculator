@@ -112,7 +112,7 @@
                 <button class="button" onclick="appendToDisplay('9')">9</button>
                 <button class="button" onclick="appendToDisplay('0')">0</button>
                 <button class="button" onclick="clearDisplay()">C</button>
-                <button class="sqrt-button" onclick="calculateSquareRoot()">&#8730;</button>
+                <button class="sqrt-button" onclick="calculateSquareRoot()">√</button>
                 <button class="result-button" onclick="calculateResult()">=</button>
                 <button class="add-button" onclick="appendToDisplay('+')">+</button>
                 <button class="minus-button" onclick="appendToDisplay('-')">-</button>
@@ -159,7 +159,8 @@
             } else if (expression.includes("/")) {
                 [a, b] = expression.split("/");
                 operation = "divide";
-            } else {
+            } 
+            else {
                 displayEl.innerText = "Invalid";
                 return;
             }
@@ -202,6 +203,30 @@
                 displayEl.innerText = `Error: ${err}`;
             }
         }
+        function calculateSquareRoot() {
+            const display = document.getElementById('display')
+            const value = parseFloat(display.innerText);
+
+            if (isNaN(value) || value < 0) {
+                display.innerText = 'Invalid Input';
+                return;
+            }
+
+        fetch('/calculate', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ operation: 'square_root', a: value })
+        })
+        .then(response => response.json())
+        .then(data => {
+            display.innerText = data.result;
+        })
+        .catch(err => {
+            display.innerText = "Error";
+        });
+    }
     </script>
 </body>
 </html>

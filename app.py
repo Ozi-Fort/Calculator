@@ -11,6 +11,8 @@ def home():
 @app.route('/calculate', methods=["POST"])
 def calculate():
     data = request.get_json() or {}
+    print("Received data: ", data)
+
     operation = data.get("operation")
     a = data.get("a")
     b = data.get("b")
@@ -21,7 +23,7 @@ def calculate():
             a = float(a)
         if b is not None:
             b = float(b)
-    except Exception as e:
+    except Exception as e: 
         return jsonify({"result": f"Error parsing numbers: {e}"})
 
     result = None
@@ -38,7 +40,7 @@ def calculate():
             result = arithmetic.remainder(a, b)
         elif operation == "square":
             result = arithmetic.square(a)
-        elif operation in ("square_root", "squareRoot"):
+        elif operation in ("square_root", "squareRoot", "sqrt"):
             result = arithmetic.square_root(a)
         elif operation in ("exponentiation", "exponent"):
             result = arithmetic.exponentiation(a, b)
