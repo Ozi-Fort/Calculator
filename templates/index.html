@@ -11,14 +11,14 @@
         }
         .calculator {
             width: 400px;
-            height: 400px;
+            height: 450px;
             background-color: #fff;
             border-radius: 10px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
             display: flex;
             flex-direction: column;
             justify-content: space-between;
-            padding: 20px;
+            padding: 25px;
         }
         .display {
             height: 90px;
@@ -64,14 +64,17 @@
             background-color: #D4CAC9;
         }
         .result-button {
-            background-color: #2592E6
+            background-color: #2592E6;
+            height: 60px;
+            
         }
         .clear-button {
             background-color: #2592E6;
             color: white;
+            height: 60px;
             font-size: 24px;
             font-weight: bold;
-            padding: 10px 20px; /* Adjusts the size of the button */
+            padding: 10px; /* Adjusts the size of the button */
             border: none; /* Removes default border */
             border-radius: 5px; /* Rounds the corners */
             cursor: pointer; /* Changes cursor to pointer on hover */
@@ -124,12 +127,7 @@
                 <button class="button" onclick="appendToDisplay('8')">8</button>
                 <button class="button" onclick="appendToDisplay('9')">9</button>
                 <button class="button" onclick="appendToDisplay('0')">0</button>
-<<<<<<< HEAD
-                <button class="button" onclick="clearDisplay()">C</button>
-                <button class="sqrt-button" onclick="calculateSquareRoot()">√</button>
-=======
                 <button class="clear-button" onclick="clearDisplay()">C</button>
->>>>>>> 3864dc128a8b4c2c7b57fe6f6acc58d278dbce38
                 <button class="result-button" onclick="calculateResult()">=</button>
                 <button class="add-button" onclick="appendToDisplay('+')">+</button>
                 <button class="minus-button" onclick="appendToDisplay('-')">-</button>
@@ -180,8 +178,7 @@
             } else if (expression.includes("/")) {
                 [a, b] = expression.split("/");
                 operation = "divide";
-            } 
-            else {
+            } else {
                 displayEl.innerText = "Invalid";
                 return;
             }
@@ -224,30 +221,6 @@
                 displayEl.innerText = `Error: ${err}`;
             }
         }
-        function calculateSquareRoot() {
-            const display = document.getElementById('display')
-            const value = parseFloat(display.innerText);
-
-            if (isNaN(value) || value < 0) {
-                display.innerText = 'Invalid Input';
-                return;
-            }
-
-        fetch('/calculate', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({ operation: 'square_root', a: value })
-        })
-        .then(response => response.json())
-        .then(data => {
-            display.innerText = data.result;
-        })
-        .catch(err => {
-            display.innerText = "Error";
-        });
-    }
     </script>
 </body>
 </html>
