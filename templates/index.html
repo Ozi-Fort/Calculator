@@ -217,6 +217,17 @@
                 displayEl.innerText = `Error: ${err}`;
             }
         }
+        function calculateSquareRoot() {
+    const displayEl = document.getElementById('display');
+    const value = parseFloat(displayEl.innerText);
+
+    if (isNaN(value)) {
+        displayEl.innerText = "Invalid";
+        return;
+    }
+
+    scientificOperation("square_root");
+}
     </script>
 </body>
 </html>
