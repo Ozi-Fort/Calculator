@@ -130,23 +130,43 @@
                 <button class="multiply-button" onclick="appendToDisplay('*')">*</button>
                 <button class="division-button" onclick="appendToDisplay('/')">/</button>
                 <button class="sqrt-button" onclick="calculateSquareRoot()">&#8730;</button>
-                <button class="sine-button" onclick="appendToDisplay('Sine ')">Sine</button>
-                <button class="cosine-button" onclick="appendToDisplay('Cosine ')">Cosine</button>
-                <button class="tan-button" onclick="appendToDisplay('Tan ')">Tan</button>
+                <button class="sine-button" onclick="scientificOperation('sin')">Sine</button>
+                <button class="cosine-button" onclick="scientificOperation('cos')">Cosine</button>
+                <button class="tan-button" onclick="scientificOperation('tan')">Tan</button>
             </div>
         </div>
     </section>
 
     <script>
+
+        let justCalculated = false;
+        let lastResult = null; 
+
         function appendToDisplay(value) {
             const display = document.getElementById('display');
-            if (display.innerText === '0') {
-                display.innerText = value;
-            } else {
-                display.innerText += value;
-            }
-        }
 
+            if(!isNaN(value)){
+                if (justCalculated) {
+                display.innerText = value;
+                justCalculated = false;
+                } else {
+                    if (display.innerText === '0') {
+                        display.innerText = value;
+                    } else {
+                        display.innerText += value;
+                    }
+                }
+            } else{
+                if (justCalculated) {
+                    display.innerText = lastResult + value;
+                    justCalculated = false;
+                } else {
+                    display.innerText += value;
+                }
+            }
+
+        }
+            
         function clearDisplay() {
             document.getElementById('display').innerText = '0';
         }
@@ -162,6 +182,8 @@
                 return;
             }
 
+            
+            // --- NORMAL ARITHMETIC---
             if (expression.includes("+")) {
                 [a, b] = expression.split("+");
                 operation = "add";
@@ -191,12 +213,15 @@
 
                 const data = await response.json();
                 displayEl.innerText = data.result;
+                lastResult = data.result;
+                justCalculated = true;
             } catch (err) {
                 displayEl.innerText = `Error: ${err}`;
             }
         }
 
-        // for trig/scientific functions (if you add buttons for them)
+        
+        // --- TRIG FUNCTIONS & SQUARE ROOT ---
         async function scientificOperation(operation) {
             const displayEl = document.getElementById('display');
             const a = parseFloat(displayEl.innerText);
@@ -213,21 +238,22 @@
                 });
                 const data = await response.json();
                 displayEl.innerText = data.result;
+                lastResult = data.result;
+                justCalculated = true;
             } catch (err) {
                 displayEl.innerText = `Error: ${err}`;
             }
         }
         function calculateSquareRoot() {
-    const displayEl = document.getElementById('display');
-    const value = parseFloat(displayEl.innerText);
+            const displayEl = document.getElementById('display');
+            const value = parseFloat(displayEl.innerText);
 
-    if (isNaN(value)) {
-        displayEl.innerText = "Invalid";
-        return;
-    }
-
-    scientificOperation("square_root");
-}
+            if (isNaN(value)) {
+                displayEl.innerText = "Invalid";
+                return;
+            }
+            scientificOperation("square_root");
+        }
     </script>
 </body>
 </html>
